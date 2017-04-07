@@ -1,6 +1,6 @@
 ---
 title: "MiniProject3"
-author: "Fiona Miller"
+author: "Fiona Miller, Starry Zhou"
 date: "April 7, 2017"
 output: html_document
 ---
