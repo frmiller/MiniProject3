@@ -8,6 +8,15 @@ Genre Multiplicity: Prof. Keller explained how the labor model in Hollywood has 
 
 See info_type_id = 3
 
+```{r}
+library(mdsr)
+library(RMySQL)
+db <- dbConnect_scidb(dbname = "imdb")
+db %>%
+  dbGetQuery("SELECT * FROM kind_type;")
+```
+
+
 ## Rubric
 
 To get full credit for this Mini-Project, you must earn 10 points out of the following 12:
