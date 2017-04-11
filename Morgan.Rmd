@@ -35,13 +35,7 @@ db3 <- db2%>%
 ```{r}
 ggplot( db3, aes(x= production_year, y = count, fill = N))+
   geom_bar(position = "fill", stat="identity")+
-  facet_grid(~production_year, scales = 'free_x', space = 'free')+
-  scale_x_continuous(expand = c(0, 0)) +
-  theme_classic()+
-  theme(axis.text.x=element_blank(),
-        axis.ticks.x=element_blank(),
-        panel.margin=unit(0, "lines"),
-        strip.background = element_blank(),
-        strip.text.x = element_blank())
+  geom_vline(xintercept = 1947)
+ 
 ```
 
