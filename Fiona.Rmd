@@ -55,7 +55,7 @@ t3 <- t2 %>%
   
 ```
 
-## Percent Genres
+## Average number of Genres
 
 ```{r}
 g1 <- t3 %>%
