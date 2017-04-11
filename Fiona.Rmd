@@ -12,27 +12,11 @@ library(RMySQL)
 db <- dbConnect_scidb(dbname = "imdb")
 ```
 
-
+## Total Films
 ```{r pressure}
-db2 <- db %>%
-  dbGetQuery("SELECT mi.movie_id, t.production_year 
-FROM movie_info mi
-INNER JOIN title t ON t.id = mi.movie_id
-WHERE mi.info_type_id = 3  AND t.kind_id = 1;") 
 table2 <- db %>%
   dbGetQuery("SELECT id, production_year FROM title
-             WHERE kind_id = 1;") 
-```
-
-```{r}
-db3 <- db2%>%
-  group_by(movie_id, production_year) %>%
-  summarize(N = n())
-```
-
-```{r}
-ggplot( db3, aes(x= production_year, fill = N))+
-  geom_bar(position = "dodge")
+             WHERE kind_id = 1;")
 ```
 
 ```{r}
