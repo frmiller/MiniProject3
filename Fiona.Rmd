@@ -54,7 +54,7 @@ t3 <- t2 %>%
 ## Average number of Genres
 ```{r}
 g1 <- t3 %>%
-  inner_join(table3)
+  inner_join(table3, by = "production_year")
 ```
 
 ```{r}
