@@ -1,0 +1,34 @@
+---
+title: "Starry"
+author: "Starry Zhou"
+date: "4/11/2017"
+output: html_document
+---
+
+```{r}
+library(mdsr)
+library(RMySQL)
+db <- dbConnect_scidb(dbname = "imdb")
+db %>%
+  dbGetQuery("SELECT * FROM kind_type;")
+```
+```{r pressure}
+db2 <- db %>%
+  dbGetQuery("SELECT mi.movie_id, t.production_year 
+FROM movie_info mi
+INNER JOIN title t ON t.id = mi.movie_id
+WHERE mi.info_type_id = 3  AND t.kind_id = 1;") 
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+db3 <- db2%>%
+  group_by(movie_id, production_year) %>%
+  summarize(N = n())
+```
+
+```{r}
+db4<- db3%>%
+ group_by(movie_id, n)
+```
+
