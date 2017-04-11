@@ -15,10 +15,8 @@ db <- dbConnect_scidb(dbname = "imdb")
 ## Total Films
 ```{r pressure}
 table2 <- db %>%
-  dbGetQuery("SELECT mi.movie_id, t.production_year 
-FROM movie_info mi
-INNER JOIN title t ON t.id = mi.movie_id
-WHERE mi.info_type_id = 3  AND t.kind_id = 1;") 
+  dbGetQuery("SELECT id, production_year FROM title
+             WHERE kind_id = 1;") 
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
@@ -49,17 +47,23 @@ INNER JOIN title t ON t.id = mi.movie_id
 WHERE mi.info_type_id = 3  AND t.kind_id = 1;") 
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
 ```{r}
 t3 <- t2 %>%
   group_by(production_year) %>%
-  summarise(num_genre = length(info))
+  summarise(num_genre = n())
   
 ```
 
 ## Percent Genres
 
 ```{r}
-JOIN table3 and t3 and find average
+g1 <- t3 %>%
+  inner_join(table3)
+```
+
+```{r}
+g2 <- g1 %>%
+  mutate(avg_genre = num_genre/num_films)
 ```
 
