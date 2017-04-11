@@ -24,7 +24,6 @@ table2 <- db %>%
              WHERE kind_id = 1;") 
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
 ```{r}
 db3 <- db2%>%
   group_by(movie_id, production_year) %>%
@@ -47,14 +46,12 @@ table4 <- table3 %>%
   mutate(total=sum(num_films))
 ```
 
-
 ```{r}
 table5 <- table4%>%
   mutate(percentage=num_films/total*100)
 ```
 
 ## Total Genres
-
 ```{r}
 t2 <- db %>%
   dbGetQuery("SELECT mi.movie_id, mi.info, t.production_year 
@@ -62,7 +59,6 @@ FROM movie_info mi
 INNER JOIN title t ON t.id = mi.movie_id
 WHERE mi.info_type_id = 3  AND t.kind_id = 1;") 
 ```
-
 
 ```{r}
 t3 <- t2 %>%
@@ -72,7 +68,6 @@ t3 <- t2 %>%
 ```
 
 ## Average number of Genres
-
 ```{r}
 g1 <- t3 %>%
   inner_join(table3)
@@ -82,4 +77,3 @@ g1 <- t3 %>%
 g2 <- g1 %>%
   mutate(avg_genre = num_genre/num_films)
 ```
-
