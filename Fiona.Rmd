@@ -51,17 +51,15 @@ WHERE mi.info_type_id = 3  AND t.kind_id = 1;")
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
 ```{r}
-t3 <- t2%>%
+t3 <- t2 %>%
   group_by(production_year) %>%
-  summarise(num_films = sum(n()))
+  summarise(num_genre = length(info))
+  
 ```
 
+## Percent Genres
+
 ```{r}
-t4 <- t3 %>%
-  mutate(total=sum(num_films))
+JOIN table3 and t3 and find average
 ```
 
-
-```{r}
-t5 <- t4%>%
-  mutate(percentage=num_films/total*100)
