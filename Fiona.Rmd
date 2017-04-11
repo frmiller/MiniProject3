@@ -12,9 +12,9 @@ library(RMySQL)
 db <- dbConnect_scidb(dbname = "imdb")
 ```
 
-
+## Total Films
 ```{r pressure}
-db2 <- db %>%
+table2 <- db %>%
   dbGetQuery("SELECT mi.movie_id, t.production_year 
 FROM movie_info mi
 INNER JOIN title t ON t.id = mi.movie_id
@@ -23,12 +23,45 @@ WHERE mi.info_type_id = 3  AND t.kind_id = 1;")
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
 ```{r}
-db3 <- db2%>%
-  group_by(movie_id, production_year) %>%
-  summarize(N = n())
+table3 <- table2%>%
+  group_by(production_year) %>%
+  summarise(num_films = sum(n()))
 ```
 
 ```{r}
-ggplot( db3, aes(x= production_year, fill = N))+
-  geom_bar(position = "dodge")
+table4 <- table3 %>%
+  mutate(total=sum(num_films))
 ```
+
+
+```{r}
+table5 <- table4%>%
+  mutate(percentage=num_films/total*100)
+```
+
+## Total Genres
+
+```{r}
+t2 <- db %>%
+  dbGetQuery("SELECT mi.movie_id, mi.info, t.production_year 
+FROM movie_info mi
+INNER JOIN title t ON t.id = mi.movie_id
+WHERE mi.info_type_id = 3  AND t.kind_id = 1;") 
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+t3 <- t2%>%
+  group_by(production_year) %>%
+  summarise(num_films = sum(n()))
+```
+
+```{r}
+t4 <- t3 %>%
+  mutate(total=sum(num_films))
+```
+
+
+```{r}
+t5 <- t4%>%
+  mutate(percentage=num_films/total*100)
