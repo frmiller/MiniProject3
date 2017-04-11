@@ -8,6 +8,11 @@ Genre Multiplicity: Prof. Keller explained how the labor model in Hollywood has 
 
 See info_type_id = 3
 
+## IDEAS
+
+
+
+
 ```{r}
 library(mdsr)
 library(RMySQL)

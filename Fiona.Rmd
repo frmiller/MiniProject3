@@ -1,0 +1,34 @@
+---
+title: "Fiona"
+author: "Fiona Miller"
+date: "April 10, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(mdsr)
+library(tidyverse)
+library(RMySQL)
+db <- dbConnect_scidb(dbname = "imdb")
+```
+
+
+```{r pressure}
+db2 <- db %>%
+  dbGetQuery("SELECT mi.movie_id, t.production_year 
+FROM movie_info mi
+INNER JOIN title t ON t.id = mi.movie_id
+WHERE mi.info_type_id = 3  AND t.kind_id = 1;") 
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+db3 <- db2%>%
+  group_by(movie_id, production_year) %>%
+  summarize(N = n())
+```
+
+```{r}
+ggplot( db3, aes(x= production_year, fill = N))+
+  geom_bar(position = "dodge")
+```
