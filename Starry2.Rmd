@@ -1,0 +1,79 @@
+title: "MP3"
+author: "Fiona Miller, Starry Zhou, Morgan McLain-Smith"
+date: "April 10, 2017"
+output: html_document
+---
+
+## Problem Statement
+We worked on project 3: genre multiplicity. We tried to figure out the change of the genre number of one movie over years by querying the average number of genre per movie from the year of 1874 to 2016 and visualized the change of average genre number of all movies in those years. 
+
+```{r setup, include=FALSE}
+library(mdsr)
+library(tidyverse)
+library(RMySQL)
+db <- dbConnect_scidb(dbname = "imdb")
+```
+
+## Total Films
+```{r pressure}
+table2 <- db %>%
+  dbGetQuery("SELECT id, production_year FROM title
+             WHERE kind_id = 1;")
+```
+
+```{r}
+table3 <- table2%>%
+  select(production_year)%>%
+  group_by(production_year) %>%
+  summarise(num_films = sum(n()))
+```
+
+```{r}
+table4 <- table3 %>%
+  mutate(total=sum(num_films))
+```
+
+```{r}
+table5 <- table4%>%
+  mutate(percentage=num_films/total*100)
+```
+
+## Total Genres
+```{r}
+t2 <- db %>%
+  dbGetQuery("SELECT mi.movie_id, mi.info, t.production_year 
+FROM movie_info mi
+INNER JOIN title t ON t.id = mi.movie_id
+WHERE mi.info_type_id = 3  AND t.kind_id = 1;") 
+```
+
+```{r}
+t3 <- t2 %>%
+  group_by(production_year) %>%
+  summarise(num_genre = n())
+  
+```
+
+## Average number of Genres
+```{r}
+g1 <- t3 %>%
+  inner_join(table3, by = "production_year")
+```
+
+```{r}
+g2 <- g1 %>%
+  mutate(avg_genre = num_genre/num_films)
+```
+```{r}
+g3<- g2%>%
+  filter(production_year<=2016)
+```
+
+
+## visualization
+```{r}
+vis <- ggplot(g3, aes(x=production_year,y=avg_genre))+
+geom_line(aes(fill = avg_genre))
+vis
+```
+
