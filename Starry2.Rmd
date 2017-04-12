@@ -33,11 +33,6 @@ table4 <- table3 %>%
   mutate(total=sum(num_films))
 ```
 
-```{r}
-table5 <- table4%>%
-  mutate(percentage=num_films/total*100)
-```
-
 ## Total Genres
 ```{r}
 t2 <- db %>%
@@ -51,7 +46,6 @@ WHERE mi.info_type_id = 3  AND t.kind_id = 1;")
 t3 <- t2 %>%
   group_by(production_year) %>%
   summarise(num_genre = n())
-  
 ```
 
 ## Average number of Genres
@@ -68,7 +62,6 @@ g2 <- g1 %>%
 g3<- g2%>%
   filter(production_year<=2016)
 ```
-
 
 ## visualization
 ```{r}
