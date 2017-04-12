@@ -1,3 +1,4 @@
+---
 title: "MP3"
 author: "Fiona Miller, Starry Zhou, Morgan McLain-Smith"
 date: "April 10, 2017"
@@ -64,14 +65,14 @@ g3<- g2%>%
   filter(production_year>=1900,production_year<=2016)
 ```
 
-## visualization
+## Visualization
 ```{r}
 vis <- ggplot(g3, aes(x=production_year,y=avg_genre))+
 geom_line(aes(fill = avg_genre))
 vis
 ```
 
-## the spread of movies with different numbers of genres each year
+## The spread of movies with different numbers of genres each year
 ```{r }
 db2 <- db %>%
   dbGetQuery("SELECT mi.movie_id, t.production_year 
@@ -97,5 +98,5 @@ ggplot( db3, aes(x= production_year, y = count, fill = N))+
   geom_bar(position = "fill", stat="identity")
 ```
 
-## explanation
+## Explanation
 We expected to see some major changes based on influential events in film field or after the production of some successful movies. From the two graphs, it seems that before the year of 1987, the genre numbers of movies  grdually increased or decreased for a short while and then change to a different direction. From 1987 to 2014 there is a constant increase, but after the genre number reaches the peak of average genre number per movie (average genre number per movie: 2.36) in 2014, it decreased again. Therefore, it seems that although clearly, the average numbers of genres per movie generally over the years, the overall change of genre numbers per movie is gradual and unpredictable. 
