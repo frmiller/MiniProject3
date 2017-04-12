@@ -98,5 +98,4 @@ ggplot( db3, aes(x= production_year, y = count, fill = N))+
 ```
 
 ## explanation
-We expected to 
-
+We expected to see some major changes based on influential events in film field or after the production of some successful movies. From the two graphs, it seems that before the year of 1987, the genre numbers of movies  grdually increased or decreased for a short while and then change to a different direction. From 1987 to 2014 there is a constant increase, but after the genre number reaches the peak of average genre number per movie (average genre number per movie: 2.36) in 2014, it decreased again. Therefore, it seems that although clearly, the average numbers of genres per movie generally over the years, the overall change of genre numbers per movie is gradual and unpredictable. 
