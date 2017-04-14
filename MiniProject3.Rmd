@@ -6,7 +6,7 @@ output: html_document
 ---
 
 ## Problem Statement
-We worked on project 3: genre multiplicity. To figure out the change of genre number of movies over the years 1900 to 2016, we visuzlized two changing trends: the change of the average genre number of each movie each year, and the change of the spread of movies with different numbers of genres each year.  
+We worked on project 3: genre multiplicity. We wanted to see if there were any trends in the number of genres movies were labeled with between 1900 and 2016. To do this, we created two visualizations: a line chart with the average number of genres in movies each year, and a bar chart of the proportions of movies with each number of genres in a year.  
 
 ```{r setup, include=FALSE}
 library(mdsr)
@@ -43,6 +43,7 @@ movieGenreAndYear <- db %>%
               INNER JOIN title t ON t.id = mi.movie_id
               WHERE mi.info_type_id = 3  
                     AND t.kind_id = 1;") 
+# "movie_info_info_type_id_exists" indexes "movie_info.info_type_id", "title_kind_id_exists" indexes "title.kind_id"
 ```
 
 ```{r}
@@ -69,7 +70,8 @@ g3<- g2%>%
 ## Visualization
 ```{r}
 vis <- ggplot(g3, aes(x=production_year,y=avg_genre))+
-geom_line(aes(fill = avg_genre))
+geom_line(aes(fill = avg_genre))+
+  geom_vline(xintercept = 1947, linetype=2)
 vis
 ```
 
@@ -95,4 +97,12 @@ ggplot( numGenrePerMovieByYear, aes(x= production_year, y = countMovies, fill = 
 ```
 
 ## Explanation
-We expected to see some major changes based on influential events in film field or after the production of some successful movies. From the two graphs, it seems that before the year of 1987, the genre numbers of movies gradually decreased for a short while and then change to a different direction. From 1987 to 2014 there is a constant increase, but after the genre number reaches the peak of average genre number per movie (average genre number per movie: 2.36) in 2014, it decreased again. Therefore, it seems that although clearly, the average numbers of genres per movie generally over the years, the overall change of genre numbers per movie is gradual and unpredictable. 
+We expected to see a major change after 1947, as the major antitrust Paramount Pictures case was decided in 1948. While the averages genres in a movie did decrease after this case, this decrease appears consistent with a downward trend established several years before the decision. 
+
+
+From the bar chart, we can see that genre multiplicity is hardly a new phenomenon. In there very early days, films were much more likely to have 2 genres than to have just one. There are several other trends apparent in this graph. First, the majority of movies have always had 1-2 genres. The proportion of movies with 3 genres is much smaller than that with 1 or 2, but has remained fairly consistent over the years. Movies with 4+ were almost unheard of before the 20s, became more common around the Golden Age of Hollywood, then became less common, and then experienced a spike in the 2010s.
+
+In 1987, the average number of genres begins to rise. It increased rapidly until 2014 where it peaked at an average of 2.36 genres per movie, and then started to fall as quickly as it had risen. Based on the bar chart, this rising average appears to have mostly been started by a higher proportion of 2 genre movies in comparison to 1 genre movies. The spike in 3+ genre movies did not occur until around the 2010s, which is reflected in an even sharper increase in the average. 
+
+
+Given the increasing averages fairly gradual start, we were unable to attribute it to any single event. While it’s drop off was dramatic, we were similarly unable to attribute it to anything but perhaps studio’s realizing the large number of genres per movie was getting silly. 
