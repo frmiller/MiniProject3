@@ -62,7 +62,9 @@ g3<- g2%>%
 ```{r, warning= FALSE}
 vis <- ggplot(g3, aes(x=production_year,y=avg_genre))+
 geom_line(aes(fill = avg_genre))+
-  geom_vline(xintercept = 1947, linetype=2)
+  geom_vline(xintercept = 1947, linetype=2)+
+  scale_x_continuous(name="Production year")+
+  scale_y_continuous(name="Average number of genres")
 vis
 ```
 
@@ -77,14 +79,14 @@ numGenrePerMovieByYear <- movieGenreAndYear%>%
   summarize(countMovies = n()) %>%
   filter(production_year<=2016, production_year>=1900)%>%
   mutate(genresPerMovie = factor(genresPerMovie, levels = 15:1))
-
-
 ```
 
 ```{r}
 ggplot( numGenrePerMovieByYear, aes(x= production_year, y = countMovies, fill = genresPerMovie))+
   geom_bar(position = "fill", stat="identity")+
-  geom_vline(xintercept = 1947, linetype=2)
+  geom_vline(xintercept = 1947, linetype=2)+
+scale_x_continuous(name="Production year")+
+  scale_y_continuous(name="Number of genres")
 ```
 
 ## Explanation
