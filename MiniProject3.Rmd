@@ -86,7 +86,8 @@ ggplot( numGenrePerMovieByYear, aes(x= production_year, y = countMovies, fill = 
   geom_bar(position = "fill", stat="identity")+
   geom_vline(xintercept = 1947, linetype=2)+
 scale_x_continuous(name="Production year")+
-  scale_y_continuous(name="Number of genres")
+  scale_y_continuous(name="Number of genres")+
+  scale_fill_discrete(name="Genres per Movie")
 ```
 
 ## Explanation
