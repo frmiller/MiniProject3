@@ -131,42 +131,47 @@ $(document).ready(function () {
 <div id="average-genre" class="section level2">
 <h2>Average genre</h2>
 </div>
-<div id="total-films" class="section level2">
-<h2>Total Films</h2>
+<div id="find-total-number-of-films-per-year" class="section level2">
+<h2>Find total number of films per year</h2>
 <pre class="r"><code>table2 &lt;- db %&gt;%
   dbGetQuery(&quot;SELECT id, production_year FROM title
-             WHERE kind_id = 1;&quot;)</code></pre>
-<pre class="r"><code>table3 &lt;- table2%&gt;%
+             WHERE kind_id = 1;&quot;)
+
+table3 &lt;- table2%&gt;%
   select(production_year)%&gt;%
   group_by(production_year) %&gt;%
-  summarise(num_films = sum(n()))</code></pre>
-<pre class="r"><code>table4 &lt;- table3 %&gt;%
+  summarise(num_films = sum(n()))
+
+table4 &lt;- table3 %&gt;%
   mutate(total=sum(num_films))</code></pre>
 </div>
-<div id="total-genres" class="section level2">
-<h2>Total Genres</h2>
+<div id="find-total-number-of-genres-per-year" class="section level2">
+<h2>Find total number of genres per year</h2>
 <pre class="r"><code>movieGenreAndYear &lt;- db %&gt;%
   dbGetQuery(&quot;SELECT mi.movie_id, mi.info, t.production_year 
               FROM movie_info mi
               INNER JOIN title t ON t.id = mi.movie_id
               WHERE mi.info_type_id = 3  
                     AND t.kind_id = 1;&quot;) 
-# &quot;movie_info_info_type_id_exists&quot; indexes &quot;movie_info.info_type_id&quot;, &quot;title_kind_id_exists&quot; indexes &quot;title.kind_id&quot;</code></pre>
-<pre class="r"><code>t3 &lt;- movieGenreAndYear %&gt;%
+# &quot;movie_info_info_type_id_exists&quot; indexes &quot;movie_info.info_type_id&quot;, &quot;title_kind_id_exists&quot; indexes &quot;title.kind_id&quot;
+
+t3 &lt;- movieGenreAndYear %&gt;%
   group_by(production_year) %&gt;%
   summarise(num_genre = n())</code></pre>
 </div>
-<div id="average-number-of-genres" class="section level2">
-<h2>Average number of Genres</h2>
+<div id="find-average-number-of-genres-for-a-movie-per-year" class="section level2">
+<h2>Find average number of genres for a movie per year</h2>
 <pre class="r"><code>g1 &lt;- t3 %&gt;%
-  inner_join(table3, by = &quot;production_year&quot;)</code></pre>
-<pre class="r"><code>g2 &lt;- g1 %&gt;%
-  mutate(avg_genre = num_genre/num_films)</code></pre>
-<pre class="r"><code>g3&lt;- g2%&gt;%
+  inner_join(table3, by = &quot;production_year&quot;)
+
+g2 &lt;- g1 %&gt;%
+  mutate(avg_genre = num_genre/num_films)
+
+g3&lt;- g2%&gt;%
   filter(production_year&gt;=1900,production_year&lt;=2016)</code></pre>
 </div>
-<div id="visualization" class="section level2">
-<h2>Visualization</h2>
+<div id="graph-showing-average-number-of-genres-for-a-film-per-year" class="section level2">
+<h2>Graph showing average number of genres for a film per year</h2>
 <pre class="r"><code>vis &lt;- ggplot(g3, aes(x=production_year,y=avg_genre))+
 geom_line(aes(fill = avg_genre))+
   geom_vline(xintercept = 1947, linetype=2)
