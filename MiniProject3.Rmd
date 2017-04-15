@@ -16,26 +16,22 @@ db <- dbConnect_scidb(dbname = "imdb")
 ```
 
 ## Average genre
-## Total Films
+## Find total number of films per year
 ```{r}
 table2 <- db %>%
   dbGetQuery("SELECT id, production_year FROM title
              WHERE kind_id = 1;")
-```
 
-```{r}
 table3 <- table2%>%
   select(production_year)%>%
   group_by(production_year) %>%
   summarise(num_films = sum(n()))
-```
 
-```{r}
 table4 <- table3 %>%
   mutate(total=sum(num_films))
 ```
 
-## Total Genres
+## Find total number of genres per year
 ```{r}
 movieGenreAndYear <- db %>%
   dbGetQuery("SELECT mi.movie_id, mi.info, t.production_year 
@@ -44,34 +40,31 @@ movieGenreAndYear <- db %>%
               WHERE mi.info_type_id = 3  
                     AND t.kind_id = 1;") 
 # "movie_info_info_type_id_exists" indexes "movie_info.info_type_id", "title_kind_id_exists" indexes "title.kind_id"
-```
 
-```{r}
 t3 <- movieGenreAndYear %>%
   group_by(production_year) %>%
   summarise(num_genre = n())
 ```
 
-## Average number of Genres
+## Find average number of genres for a movie per year
 ```{r}
 g1 <- t3 %>%
   inner_join(table3, by = "production_year")
-```
 
-```{r}
 g2 <- g1 %>%
   mutate(avg_genre = num_genre/num_films)
-```
-```{r}
+
 g3<- g2%>%
   filter(production_year>=1900,production_year<=2016)
 ```
 
-## Visualization
-```{r}
+## Graph showing average number of genres for a film per year
+```{r, warning= FALSE}
 vis <- ggplot(g3, aes(x=production_year,y=avg_genre))+
 geom_line(aes(fill = avg_genre))+
-  geom_vline(xintercept = 1947, linetype=2)
+  geom_vline(xintercept = 1947, linetype=2)+
+  scale_x_continuous(name="Production year")+
+  scale_y_continuous(name="Average number of genres")
 vis
 ```
 
@@ -86,14 +79,14 @@ numGenrePerMovieByYear <- movieGenreAndYear%>%
   summarize(countMovies = n()) %>%
   filter(production_year<=2016, production_year>=1900)%>%
   mutate(genresPerMovie = factor(genresPerMovie, levels = 15:1))
-
-
 ```
 
 ```{r}
 ggplot( numGenrePerMovieByYear, aes(x= production_year, y = countMovies, fill = genresPerMovie))+
   geom_bar(position = "fill", stat="identity")+
-  geom_vline(xintercept = 1947, linetype=2)
+  geom_vline(xintercept = 1947, linetype=2)+
+scale_x_continuous(name="Production year")+
+  scale_y_continuous(name="Number of genres")
 ```
 
 ## Explanation
