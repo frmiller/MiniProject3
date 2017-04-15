@@ -97,4 +97,4 @@ From the bar chart, we can see that genre multiplicity is hardly a new phenomeno
 
 In 1987, the average number of genres begins to rise. It increased rapidly until 2014 where it peaked at an average of 2.36 genres per movie, and then started to fall as quickly as it had risen. Based on the bar chart, this rising average appears to have mostly been started by a higher proportion of 2 genre movies in comparison to 1 genre movies. The spike in 3+ genre movies did not occur until around the 2010s, which is reflected in an even sharper increase in the average. 
 
-Given the increasing averages fairly gradual start, we were unable to attribute it to any single event. While it’s drop off was dramatic, we were similarly unable to attribute it to anything but perhaps studio’s realizing the large number of genres per movie was getting silly. 
+Given the increasing averages fairly gradual start, we were unable to attribute it to any single event. While it’s drop off was dramatic, we were similarly unable to attribute it to anything. It seems that the changes are gradual and unpredictable.
